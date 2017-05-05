@@ -4,13 +4,11 @@ public class Bus {
 	private String[] seats;
 	private int bookedTickets;
 	private final int CAPACITY;
-	private boolean isFull;
 
 	public Bus() {
 		bookedTickets = 0;
-		CAPACITY = 1;
+		CAPACITY = 50;
 		seats = new String[CAPACITY];
-		isFull = false;
 	}
 
 	synchronized public boolean bookTicket(String name) {
@@ -24,8 +22,13 @@ public class Bus {
 	public int bookedTicketsCount() {
 		return bookedTickets;
 	}
-
+	
 	public boolean isFull() {
-		return isFull;
+		return bookedTickets == CAPACITY;
 	}
+	
+	public String[] getBookedSeats() {
+		return seats;
+	}
+
 }
