@@ -10,18 +10,46 @@ public class BusTest {
 	@Test
 	public void shouldCorrectlyBookTicketsConcurrently() {
 		Bus b = new Bus();
-		for(int i = 0 ; i < 10 ; i++) {
-			new Thread(() -> {
-				b.bookTicket("RandomName");
-			}).start();
-		}
+		Thread t;
 		int count = 0;
+		
+		for(int i = 0 ; i < 10 ; i++) {
+			t = new Thread(() -> {
+				b.bookTicket("RandomName");
+			});
+			t.start();
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		for(String name : b.getBookedSeats()) {
 			if(name != null) {
 				count++;
 			}
 		}
-		assertEquals(count, b.bookedTicketsCount());
+		
+		assertEquals(count, 10);
+	}
+	
+	@Test
+	public void shouldCorrectlyBookTicketsWhenExceedCapacity() {
+		Bus b = new Bus();
+		int count = 0;
+		
+		for(int i = 0 ; i < 60 ; i++) {
+			b.bookTicket("Name " + i);
+		}
+		
+		for(String name : b.getBookedSeats()) {
+			if(name != null) {
+				count++;
+			}
+		}
+		
+		assertEquals(count, 50);
 	}
 	
 	@Test
