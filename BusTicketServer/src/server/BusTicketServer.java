@@ -39,14 +39,13 @@ public class BusTicketServer {
 					while (true) {
 						if (in.hasNext()) {
 							String name = in.nextLine();
-							if (!bus.isFull()) {
-								bus.bookTicket(name);
+							if (bus.bookTicket(name)) {
 								System.out.println(name + " has booked seat number " + bus.bookedTicketsCount());
 								out.println("A bus ticket has been booked for you!" + " Seat number: "
-										+ bus.bookedTicketsCount());
+										+ bus.bookedTicketsCount() + ".");
 								out.flush();
 							} else {
-								System.out.println("The bus is full.");
+								System.out.println(name + " tried to book a seat but the bus is full.");
 								out.println("The bus is full.");
 								out.flush();
 							}

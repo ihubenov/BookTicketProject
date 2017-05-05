@@ -8,16 +8,17 @@ public class Bus {
 
 	public Bus() {
 		bookedTickets = 0;
-		CAPACITY = 50;
+		CAPACITY = 1;
 		seats = new String[CAPACITY];
 		isFull = false;
 	}
 
-	synchronized public void bookTicket(String name) {
-		seats[bookedTickets++] = name;
-		if(bookedTickets == CAPACITY) {
-			isFull = true;
+	synchronized public boolean bookTicket(String name) {
+		if(bookedTickets < CAPACITY) {
+			seats[bookedTickets++] = name;
+			return true;
 		}
+		return false;
 	}
 
 	public int bookedTicketsCount() {
